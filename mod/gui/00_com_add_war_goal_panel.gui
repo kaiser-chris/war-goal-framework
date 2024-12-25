@@ -1,0 +1,403 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_20 = 520			# used to be 440
+@panel_width_minus_20_half = 260	# used to be 220
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_half_minus_20 = 250
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types com_add_war_goal_panel_overwrites {
+
+	# Overwritten to add:
+	#  - com_add_wargoal_item
+	#  - com_add_wargoal_type_item
+	type add_wargoal_panel = default_block_window  {
+		name = "add_wargoal_panel"
+
+		blockoverride "window_header_name" {
+			text = "ADD_WARGOAL_HEADER"
+		}
+
+		state = {
+			name = _hide
+			on_start = "[GetVariableSystem.Clear('com_selected_war_goal_type')]"
+		}
+
+		blockoverride "entire_back_button" {
+			back_button_large = {
+				position = { 8 30 }
+				onclick = "[AddWarGoalPanel.ClearSelectedWarGoalType]"
+				input_action = "back"
+				visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
+			}
+
+			back_button_large = {
+				position = { 8 30 }
+				onclick = "[GetVariableSystem.Clear('com_selected_war_goal_type')]"
+				input_action = "back"
+				visible = "[GetVariableSystem.Exists('com_selected_war_goal_type')]"
+			}
+
+			back_button_large = {
+				position = { 8 30 }
+				onclick = "[InformationPanelBar.OpenPreviousPanel]"
+				input_action = "back"
+				visible = "[And(Not(AddWarGoalPanel.HasSelectedWarGoalType), Not(GetVariableSystem.Exists('com_selected_war_goal_type')))]"
+			}
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				direction = vertical
+				using = default_list_position
+
+				dynamicgridbox = {
+					name = "wargoal_selection_list"
+					visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
+					datamodel = "[AddWarGoalPanel.AccessShownWarGoals]"
+
+					item = {
+						add_wargoal_item = {}
+					}
+				}
+
+				dynamicgridbox = {
+					name = "com_wargoal_selection_list"
+					visible = "[DataModelHasItems(GetGlobalList('com_custom_war_goals'))]"
+					datamodel = "[GetGlobalList('com_custom_war_goals')]"
+
+					item = {
+						com_add_wargoal_item = {}
+					}
+				}
+
+				dynamicgridbox = {
+					name = "wargoal_type_selection_list"
+					visible = "[And(Not(AddWarGoalPanel.HasSelectedWarGoalType), Not(GetVariableSystem.Exists('com_selected_war_goal_type')))]"
+					datamodel = "[AddWarGoalPanel.AccessShownWarGoalTypes]"
+
+					item = {
+						add_wargoal_type_item = {}
+					}
+				}
+
+				dynamicgridbox = {
+					name = "com_wargoal_type_selection_list"
+					visible = "[And3(DataModelHasItems(GetGlobalList('com_custom_war_goals_types')), Not(GetVariableSystem.Exists('com_selected_war_goal_type')), Not(AddWarGoalPanel.HasSelectedWarGoalType))]"
+					datamodel = "[GetGlobalList('com_custom_war_goals_types')]"
+
+					item = {
+						com_add_wargoal_type_item = {}
+					}
+				}
+
+				empty_state = {
+					parentanchor = vcenter
+					blockoverride "visible" {
+						visible = "[IsDataModelEmpty(AddWarGoalPanel.AccessShownWarGoalTypes)]"
+					}
+					blockoverride "text" {
+						text = "NO_VALID_WAR_GOALS"
+					}
+				}
+
+			}
+		}
+	}
+
+	### Custom ADD WARGOAL
+	type com_add_wargoal_item = button {
+		datacontext = "[Scope.GetBuildingType]"
+		datacontext = "[GetScriptedGui('com_add_custom_war_goal')]"
+		datacontext = "[AddWarGoalPanel.GetDiplomaticPlay]"
+		visible = "[And(
+						EqualTo_string(GetVariableSystem.Get('com_selected_war_goal_type'), Localize(Concatenate(BuildingType.GetKey, '_type_name'))),
+						GetScriptedGui(BuildingType.GetKey).IsShown(GuiScope
+							.SetRoot(DiplomaticPlay.MakeScope)
+							.AddScope('war_goal', BuildingType.MakeScope)
+							.AddScope('target', DiplomaticPlay.GetTarget.MakeScope)
+							.AddScope('initiator', DiplomaticPlay.GetInitiator.MakeScope)
+							.End
+						)
+					)]"
+		enabled = "[And(
+						ScriptedGui.IsValid(GuiScope.SetRoot(DiplomaticPlay.MakeScope).AddScope('war_goal', BuildingType.MakeScope).End),
+						GreaterThanOrEqualTo_int32(
+							Subtract_int32(
+								DiplomaticPlay.GetNumManeuversRemaining(GetPlayer.Self),
+								FixedPointToInt(DiplomaticPlay.MakeScope.Var('com_cost').GetValue)
+							),
+							FixedPointToInt(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_cost')))
+						)
+					)]"
+		onclick = "[ScriptedGui.Execute(GuiScope
+						.SetRoot(DiplomaticPlay.MakeScope)
+						.AddScope('war_goal', BuildingType.MakeScope)
+						.AddScope('target', DiplomaticPlay.GetTarget.MakeScope)
+						.AddScope('initiator', DiplomaticPlay.GetInitiator.MakeScope)
+						.AddScope('infamy', MakeScopeValue(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_infamy'))))
+						.AddScope('cost', MakeScopeValue(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_cost'))))
+						.End
+					)]"
+
+		# Reset GUI state
+		onclick = "[GetVariableSystem.Clear('com_selected_war_goal_type')]"
+
+		# Go back to Diplomatic Play GUI
+		onclick = "[InformationPanelBar.OpenPreviousPanel]"
+
+		widget = {
+			visible = "[Not(ScriptedGui.IsValid(GuiScope.SetRoot(DiplomaticPlay.MakeScope).AddScope('war_goal', BuildingType.MakeScope).End))]"
+			size = { 100% 100% }
+			tooltip = com_war_goal_already_active
+		}
+
+		widget = {
+			datacontext = "[AddWarGoalPanel.GetDiplomaticPlay]"
+			visible = "[ScriptedGui.IsValid(GuiScope.SetRoot(DiplomaticPlay.MakeScope).AddScope('war_goal', BuildingType.MakeScope).End)]"
+			size = { 100% 100% }
+			tooltip = com_war_goal_tooltip
+		}
+
+		using = default_button_action
+		using = add_war_goal_button_sound
+		onmousehierarchyenter = "[WarGoal.ShowHighlight]"
+		onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		alwaystransparent = no
+
+		container = {
+			resizeparent = yes
+			minimumsize = { 550 60 }
+
+			small_flag = {
+				visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, DiplomaticPlay.GetInitiator.MakeScope)]"
+				position = { 10 0 }
+				datacontext = "[DiplomaticPlay.GetInitiator]"
+				parentanchor = vcenter
+			}
+
+			small_flag = {
+				visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, DiplomaticPlay.GetTarget.MakeScope)]"
+				position = { 10 0 }
+				datacontext = "[DiplomaticPlay.GetTarget]"
+				parentanchor = vcenter
+			}
+
+			icon = {
+				position = { 70 0 }
+				size = { 50 50 }
+				texture = "[BuildingType.GetIcon]"
+				parentanchor = left|vcenter
+				widgetanchor = left|vcenter
+			}
+
+			flowcontainer = {
+				position = { -15 0 }
+				parentanchor = right|vcenter
+				spacing = 10
+
+				flowcontainer = {
+					datacontext = "[AddWarGoalPanel.AccessDiplomaticPlay]"
+					direction = horizontal
+					parentanchor = vcenter
+
+					textbox = {
+						visible = "[GreaterThan_CFixedPoint(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_infamy')), '(CFixedPoint)0')]"
+						tooltip = com_war_goal_infamy_tooltip
+						using = fontsize_large
+						text = com_war_goal_infamy
+						autoresize = yes
+						maximumsize = { 100 -1 }
+						minimumsize = { 60 -1 }
+						multiline = yes
+						parentanchor = vcenter
+						align = right|nobaseline
+					}
+
+					textbox = {
+						tooltip = com_war_goal_cost_tooltip
+						using = fontsize_large
+						text = com_war_goal_cost
+						autoresize = yes
+						maximumsize = { 100 -1 }
+						minimumsize = { 60 -1 }
+						multiline = yes
+						margin_left = 10
+						parentanchor = vcenter
+						align = right|nobaseline
+					}
+				}
+			}
+
+
+			textbox = {
+				position = { 120 0 }
+				using = fontsize_large
+				parentanchor = left|vcenter
+				text = com_war_goal_name
+				align = left|nobaseline
+				elide = right
+				fontsize_min = 14
+				maximumsize = { 260 -1 }
+				autoresize = yes
+				multiline = yes
+			}
+		}
+	}
+
+	### Custom ADD WARGOAL TYPE
+	type com_add_wargoal_type_item = button {
+		datacontext = "[Scope.GetBuildingType]"
+		datacontext = "[AddWarGoalPanel.GetDiplomaticPlay]"
+		onclick = "[GetVariableSystem.Set('com_selected_war_goal_type', Localize(Concatenate(BuildingType.GetKey, '_type_name')))]"
+		tooltip = com_war_goal_tooltip
+		using = default_button
+		visible = "[GetScriptedGui(BuildingType.GetKey).IsShown(GuiScope
+						.SetRoot(DiplomaticPlay.MakeScope)
+						.AddScope('war_goal', BuildingType.MakeScope)
+						.AddScope('target', DiplomaticPlay.GetTarget.MakeScope)
+						.AddScope('initiator', DiplomaticPlay.GetInitiator.MakeScope)
+						.End
+					)]"
+
+		container = {
+			resizeparent = yes
+			minimumsize = { 550 60 }
+
+			icon = {
+				position = { 10 0 }
+				size = { 50 50 }
+				texture = "[BuildingType.GetIcon]"
+				parentanchor = left|vcenter
+				widgetanchor = left|vcenter
+			}
+
+			textbox = {
+				position = { 70 0 }
+				using = fontsize_large
+				parentanchor = left|vcenter
+				align = left|nobaseline
+				text = com_war_goal_name
+				autoresize = yes
+				maximumsize = { 440 -1 }
+				multiline = yes
+			}
+		}
+	}
+
+	### ADD WARGOAL
+	# Overwritten to extend enabled check to
+	# include custom war goal cost
+	type add_wargoal_item = button {
+		datacontext = "[AddWarGoalPanel.GetDiplomaticPlay]"
+		onclick = "[Execute( AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal( WarGoal.Self ) )]"
+		onclick = "[InformationPanelBar.OpenPreviousPanel]"
+		enabled = "[And(
+						IsValid(DiplomaticPlay.AddWarGoal(WarGoal.Self)),
+						GreaterThanOrEqualTo_int32(
+							Subtract_int32(
+								DiplomaticPlay.GetNumManeuversRemaining(GetPlayer.Self),
+								FixedPointToInt(DiplomaticPlay.MakeScope.Var('com_cost').GetValue)
+							),
+							WarGoal.CalcManeuversCostToAdd
+						)
+					)]"
+		tooltip = "ADD_WARGOAL_ITEM"
+		using = default_button_action
+		using = add_war_goal_button_sound
+		onmousehierarchyenter = "[WarGoal.ShowHighlight]"
+		onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		alwaystransparent = no
+
+		container = {
+			resizeparent = yes
+			minimumsize = { 550 60 }
+
+			small_flag = {
+				position = { 10 0 }
+				datacontext = "[WarGoal.GetHolder]"
+				parentanchor = vcenter
+			}
+
+			icon = {
+				position = { 70 0 }
+				size = { 50 50 }
+				texture = "[WarGoal.GetTexture]"
+				parentanchor = left|vcenter
+				widgetanchor = left|vcenter
+			}
+
+			flowcontainer = {
+				position = { -15 0 }
+				parentanchor = right|vcenter
+				spacing = 10
+
+				flowcontainer = {
+					direction = horizontal
+					parentanchor = vcenter
+
+					textbox = {
+						visible = "[GreaterThan_CFixedPoint(WarGoal.GetInfamyAmount, '(CFixedPoint)0')]"
+						tooltip = "WARGOAL_INFAMY_TOOLTIP"
+						using = fontsize_large
+						text = "WARGOAL_INFAMY"
+						autoresize = yes
+						maximumsize = { 100 -1 }
+						minimumsize = { 60 -1 }
+						multiline = yes
+						parentanchor = vcenter
+						align = right|nobaseline
+					}
+
+					textbox = {
+						tooltip = "ADD_WARGOAL_MANEUVERS_COST_TOOLTIP"
+						using = fontsize_large
+						text = "ADD_WARGOAL_MANEUVERS_COST"
+						autoresize = yes
+						maximumsize = { 100 -1 }
+						minimumsize = { 60 -1 }
+						multiline = yes
+						margin_left = 10
+						parentanchor = vcenter
+						align = right|nobaseline
+					}
+				}
+
+				flag_icon = {
+					size = { 48 32 }
+					visible = "[WarGoal.HasCountryCreation]"
+					block "flag_definition" {
+						texture = "[WarGoal.GetCountryCreation.GetDefinition.GetFlag('release').GetSmallFlagTexture]"
+						frame = "[WarGoal.GetCountryCreation.GetDefinition.GetFlag('release').GetSmallFlagFrame]"
+					}
+					framesize = "[GetSmallFlagFrameSize]"
+					blockoverride "flag_tooltip" {}
+					parentanchor = vcenter
+					onmousehierarchyenter = "[AccessHighlightManager.HighlightCountryFormation(WarGoal.GetCountryCreation.Self)]"
+					onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+					alwaystransparent = no
+				}
+			}
+
+
+			textbox = {
+				position = { 120 0 }
+				using = fontsize_large
+				parentanchor = left|vcenter
+				text = "[WarGoal.GetName]"
+				align = left|nobaseline
+				elide = right
+				fontsize_min = 14
+				maximumsize = { 260 -1 }
+				autoresize = yes
+				multiline = yes
+			}
+		}
+	}
+}
