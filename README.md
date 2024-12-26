@@ -1,12 +1,13 @@
 # Overview
 **War Goal Framework** is a mod for Victoria 3.
 
-**THIS MOD IS IN ALPHA AND UNFINISHED!**
+**THIS MOD IS FEATURE COMPLETE BUT UNTESTED!**
 
 ## Caveats / Limitations
 
- - You cannot add War Goals to an existing category
- - Custom Diplomatic Plays need to have a base game War Goal attached, and custom war goals can only be added additionally. I recommend using War Reparations as a base War Goal and then attaching your custom War Goal to that. 
+ - You cannot add War Goals to an existing category.
+ - Custom Diplomatic Plays need to have a base game War Goal attached, and custom War Goals can only be added additionally. I recommend using War Reparations as a base War Goal and then attaching your custom War Goal to that.
+ - It is not possible for a custom war goal to modify peace acceptance since the game does not expose peace acceptance as a number but only as a string.
 
 ## Add a War Goal Category
 
@@ -87,6 +88,27 @@ add_to_global_variable_list = {
 }
 ```
 **NOTE: I recommend doing this in the global history file** (See [00_activate_example_war_goal.txt](mod/common/history/global/00_activate_example_war_goal.txt)).
+
+## War Goal Effects
+
+To have your War Goal actually affect the game, you will need to define a few on_actions (See [wgf_example_war_goal_enforcement.txt](mod/common/on_actions/wgf_example_war_goal_enforcement.txt)):
+
+ - `on_diplo_play_back_down` to enforce our war goal if it was a primary demand
+ - `on_war_end` to enforce our war goal at the end of a war
+
+## Using War Goal in custom Diplomatic Play
+
+War Goals and their maneuver cost are saved in the following variables and lists on the diplomatic play:
+
+ - `wgf_active_war_goals` all custom War Goals are added here
+ - `wgf_active_war_goals_primary` all primary demands are **ALSO** added here
+ - `wgf_cost` current maneuver cost of all custom war goals in the diplomatic play
+
+To have your War Goal added to a custom (or any) diplomatic play automatically,
+you will need to create an `on_action` for it
+(See [wgf_example_diplomatic_play.txt](mod/common/on_actions/wgf_example_diplomatic_play.txt)):
+
+- `on_diplomatic_play_started` there we check whether the diplomatic play is of the wanted type and then add our custom War Goal
 
 ## Example Screenshots
 ![War Goal Category](assets/screenshots/category.png)

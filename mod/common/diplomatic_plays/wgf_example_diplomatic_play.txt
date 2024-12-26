@@ -1,0 +1,27 @@
+﻿dp_wgf_example = {
+	# Every diplomatic play needs to be
+	# based on a base game War Goal
+	war_goal = war_reparations
+
+	texture = "gfx/interface/icons/war_goals/unused/placeholder.dds"
+	
+	possible = {
+		# Hide this Diplomatic Play
+		# because it is just an
+		# example
+		always = no
+	}
+
+	selectable_in_lens = {
+		# Hide this Diplomatic Play
+		# because it is just an
+		# example
+		always = no
+	}
+
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}

@@ -22,3 +22,6 @@
  # Effect shown in the Diplomatic Play panel
  # when hovering the War Goal
  wgf_example_war_goal_effects_desc: "[DiplomaticPlay.GetInitiator.GetName] does something to [DiplomaticPlay.GetTarget.GetName]."
+
+# == DIPLOMATIC PLAY
+ dp_wgf_example: "Example Play"

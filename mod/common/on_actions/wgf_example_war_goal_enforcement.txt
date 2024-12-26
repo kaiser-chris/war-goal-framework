@@ -1,0 +1,59 @@
+﻿# Root = Diplomatic Play
+on_diplo_play_back_down = {
+    on_actions = {
+        on_diplomatic_play_back_down_example_war_goal
+    }
+}
+
+on_diplomatic_play_back_down_example_war_goal = {
+    effect = {
+        if = {
+            # We check whether our custom war goal
+            # was a primary demand in the
+            # diplomatic play
+            limit = {
+                scope:notification_target = {
+                    is_player = yes
+                }
+                is_target_in_variable_list = {
+                    name = wgf_active_war_goals_primary
+                    target = bt:wgf_example_war_goal
+                }
+            }
+            # This is the player country
+            scope:notification_target = {
+                # Do something to your country
+            }
+            # This is the loosing country
+            scope:actor = {
+                # Do something to the loosing country
+            }
+        }
+    }
+}
+
+# Root = Country that capitulated
+# scope:actor = Initiator country
+# scope:target = Target country
+on_war_end = {
+    on_actions = {
+        on_war_end_example_war_goal
+    }
+}
+
+on_war_end_example_war_goal = {
+    effect = {
+        if = {
+            # We check whether our custom war goal
+            # was a part of the war and pressed in
+            # a peace deal
+            limit = {
+                is_target_in_variable_list = {
+                    name = wgf_active_war_goals_pressed
+                    target = bt:wgf_example_war_goal
+                }
+            }
+            # Enforce your war goal effect
+        }
+    }
+}

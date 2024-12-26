@@ -16,3 +16,5 @@
  wgf_diplo_remaining_maneuvers_initiator_tooltip: "#header Initiator [Concept('concept_maneuver', '$concept_maneuvers$')]#!\n[DiplomaticPlay.GetInitiator.GetName|v] has $wgf_diplo_remaining_maneuvers_initiator$ [Concept('concept_maneuver', '$concept_maneuvers$')] remaining."
  wgf_diplo_remaining_maneuvers_target_tooltip: "#header Target [Concept('concept_maneuver', '$concept_maneuvers$')]#!\n[DiplomaticPlay.GetTarget.GetName|v] has $wgf_diplo_remaining_maneuvers_target$ [Concept('concept_maneuver', '$concept_maneuvers$')] remaining."
  wgf_war_goals: "War Goals"
+ wgf_peace_acceptance: "#variable [Subtract_int32(War.GetActivePeaceDealAcceptanceScore(WarParticipant.GetCountry), FixedPointToInt(DiplomaticPlay.MakeScope.Var('wgf_acceptance_modifier').GetValueWithDefault('(CFixedPoint)0')))|+=0]#!"
+ wgf_active_peace_acceptance: "#variable [Subtract_int32(War.GetProposedPeaceDealAcceptanceScore(WarParticipant.GetCountry, GetPlayer), FixedPointToInt(DiplomaticPlay.MakeScope.Var('wgf_acceptance_modifier').GetValueWithDefault('(CFixedPoint)0')))|+=0]#!"

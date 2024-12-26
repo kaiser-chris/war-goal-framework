@@ -1,0 +1,41 @@
+﻿# Scope: Diplomatic Play
+on_diplomatic_play_started = {
+    on_actions = {
+        on_diplomatic_play_started_example_war_goal
+    }
+}
+
+on_diplomatic_play_started_example_war_goal = {
+    effect = {
+        if = {
+            # We check whether our custom diplomatic play
+            # was used
+            limit = {
+                is_diplomatic_play_type = dp_wgf_example
+            }
+            # We add our custom war goal in general to the
+            # diplomatic play
+            add_to_variable_list = {
+                name = wgf_active_war_goals
+                target = bt:wgf_example_war_goal
+            }
+            # Then we add our custom war goal to
+            # to the primary demands of the diplomatic
+            # play
+            add_to_variable_list = {
+                name = wgf_active_war_goals_primary
+                target = bt:wgf_example_war_goal
+            }
+            # This is optional but we should also
+            # enforce our maneuver and infamy requirements
+            # for the custom war goal
+            set_variable = {
+                name = wgf_cost
+                value = wgf_example_war_goal_cost
+            }
+            initiator = {
+                change_infamy = wgf_example_war_goal_infamy
+            }
+        }
+    }
+}

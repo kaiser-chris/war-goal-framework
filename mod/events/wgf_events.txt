@@ -21,12 +21,17 @@ war_goal_framework.1 = {
 		save_scope_as = cost
 		save_scope_as = infamy
 		save_scope_as = war_goal
+		save_scope_as = modifier
 		add_to_global_variable_list = {
 			name = wgf_custom_war_goals_types
 			target = bt:wgf_example_war_goal_category
 		}
 		add_to_global_variable_list = {
 			name = wgf_custom_war_goals
+			target = bt:wgf_example_war_goal
+		}
+		add_to_variable_list = {
+			name = wgf_active_war_goals_pressed
 			target = bt:wgf_example_war_goal
 		}
 		every_in_global_list = {
