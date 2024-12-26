@@ -12,11 +12,11 @@
 @panel_width_plus_30 = 570			# used to be 490
 @panel_width_plus_70 = 610			# used to be 530
 
-types com_add_war_goal_panel_overwrites {
+types wgf_add_war_goal_panel_overwrites {
 
 	# Overwritten to add:
-	#  - com_add_wargoal_item
-	#  - com_add_wargoal_type_item
+	#  - wgf_add_wargoal_item
+	#  - wgf_add_wargoal_type_item
 	type add_wargoal_panel = default_block_window  {
 		name = "add_wargoal_panel"
 
@@ -26,7 +26,7 @@ types com_add_war_goal_panel_overwrites {
 
 		state = {
 			name = _hide
-			on_start = "[GetVariableSystem.Clear('com_selected_war_goal_type')]"
+			on_start = "[GetVariableSystem.Clear('wgf_selected_war_goal_type')]"
 		}
 
 		blockoverride "entire_back_button" {
@@ -39,16 +39,16 @@ types com_add_war_goal_panel_overwrites {
 
 			back_button_large = {
 				position = { 8 30 }
-				onclick = "[GetVariableSystem.Clear('com_selected_war_goal_type')]"
+				onclick = "[GetVariableSystem.Clear('wgf_selected_war_goal_type')]"
 				input_action = "back"
-				visible = "[GetVariableSystem.Exists('com_selected_war_goal_type')]"
+				visible = "[GetVariableSystem.Exists('wgf_selected_war_goal_type')]"
 			}
 
 			back_button_large = {
 				position = { 8 30 }
 				onclick = "[InformationPanelBar.OpenPreviousPanel]"
 				input_action = "back"
-				visible = "[And(Not(AddWarGoalPanel.HasSelectedWarGoalType), Not(GetVariableSystem.Exists('com_selected_war_goal_type')))]"
+				visible = "[And(Not(AddWarGoalPanel.HasSelectedWarGoalType), Not(GetVariableSystem.Exists('wgf_selected_war_goal_type')))]"
 			}
 		}
 
@@ -68,18 +68,18 @@ types com_add_war_goal_panel_overwrites {
 				}
 
 				dynamicgridbox = {
-					name = "com_wargoal_selection_list"
-					visible = "[DataModelHasItems(GetGlobalList('com_custom_war_goals'))]"
-					datamodel = "[GetGlobalList('com_custom_war_goals')]"
+					name = "wgf_wargoal_selection_list"
+					visible = "[DataModelHasItems(GetGlobalList('wgf_custom_war_goals'))]"
+					datamodel = "[GetGlobalList('wgf_custom_war_goals')]"
 
 					item = {
-						com_add_wargoal_item = {}
+						wgf_add_wargoal_item = {}
 					}
 				}
 
 				dynamicgridbox = {
 					name = "wargoal_type_selection_list"
-					visible = "[And(Not(AddWarGoalPanel.HasSelectedWarGoalType), Not(GetVariableSystem.Exists('com_selected_war_goal_type')))]"
+					visible = "[And(Not(AddWarGoalPanel.HasSelectedWarGoalType), Not(GetVariableSystem.Exists('wgf_selected_war_goal_type')))]"
 					datamodel = "[AddWarGoalPanel.AccessShownWarGoalTypes]"
 
 					item = {
@@ -88,12 +88,12 @@ types com_add_war_goal_panel_overwrites {
 				}
 
 				dynamicgridbox = {
-					name = "com_wargoal_type_selection_list"
-					visible = "[And3(DataModelHasItems(GetGlobalList('com_custom_war_goals_types')), Not(GetVariableSystem.Exists('com_selected_war_goal_type')), Not(AddWarGoalPanel.HasSelectedWarGoalType))]"
-					datamodel = "[GetGlobalList('com_custom_war_goals_types')]"
+					name = "wgf_wargoal_type_selection_list"
+					visible = "[And3(DataModelHasItems(GetGlobalList('wgf_custom_war_goals_types')), Not(GetVariableSystem.Exists('wgf_selected_war_goal_type')), Not(AddWarGoalPanel.HasSelectedWarGoalType))]"
+					datamodel = "[GetGlobalList('wgf_custom_war_goals_types')]"
 
 					item = {
-						com_add_wargoal_type_item = {}
+						wgf_add_wargoal_type_item = {}
 					}
 				}
 
@@ -112,12 +112,12 @@ types com_add_war_goal_panel_overwrites {
 	}
 
 	### Custom ADD WARGOAL
-	type com_add_wargoal_item = button {
+	type wgf_add_wargoal_item = button {
 		datacontext = "[Scope.GetBuildingType]"
-		datacontext = "[GetScriptedGui('com_add_custom_war_goal')]"
+		datacontext = "[GetScriptedGui('wgf_add_custom_war_goal')]"
 		datacontext = "[AddWarGoalPanel.GetDiplomaticPlay]"
 		visible = "[And(
-						EqualTo_string(GetVariableSystem.Get('com_selected_war_goal_type'), Localize(Concatenate(BuildingType.GetKey, '_type_name'))),
+						EqualTo_string(GetVariableSystem.Get('wgf_selected_war_goal_type'), Localize(Concatenate(BuildingType.GetKey, '_type_name'))),
 						GetScriptedGui(BuildingType.GetKey).IsShown(GuiScope
 							.SetRoot(DiplomaticPlay.MakeScope)
 							.AddScope('war_goal', BuildingType.MakeScope)
@@ -131,7 +131,7 @@ types com_add_war_goal_panel_overwrites {
 						GreaterThanOrEqualTo_int32(
 							Subtract_int32(
 								DiplomaticPlay.GetNumManeuversRemaining(GetPlayer.Self),
-								FixedPointToInt(DiplomaticPlay.MakeScope.Var('com_cost').GetValue)
+								FixedPointToInt(DiplomaticPlay.MakeScope.Var('wgf_cost').GetValue)
 							),
 							FixedPointToInt(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_cost')))
 						)
@@ -147,7 +147,7 @@ types com_add_war_goal_panel_overwrites {
 					)]"
 
 		# Reset GUI state
-		onclick = "[GetVariableSystem.Clear('com_selected_war_goal_type')]"
+		onclick = "[GetVariableSystem.Clear('wgf_selected_war_goal_type')]"
 
 		# Go back to Diplomatic Play GUI
 		onclick = "[InformationPanelBar.OpenPreviousPanel]"
@@ -155,14 +155,14 @@ types com_add_war_goal_panel_overwrites {
 		widget = {
 			visible = "[Not(ScriptedGui.IsValid(GuiScope.SetRoot(DiplomaticPlay.MakeScope).AddScope('war_goal', BuildingType.MakeScope).End))]"
 			size = { 100% 100% }
-			tooltip = com_war_goal_already_active
+			tooltip = wgf_war_goal_already_active
 		}
 
 		widget = {
 			datacontext = "[AddWarGoalPanel.GetDiplomaticPlay]"
 			visible = "[ScriptedGui.IsValid(GuiScope.SetRoot(DiplomaticPlay.MakeScope).AddScope('war_goal', BuildingType.MakeScope).End)]"
 			size = { 100% 100% }
-			tooltip = com_war_goal_tooltip
+			tooltip = wgf_war_goal_tooltip
 		}
 
 		using = default_button_action
@@ -209,9 +209,9 @@ types com_add_war_goal_panel_overwrites {
 
 					textbox = {
 						visible = "[GreaterThan_CFixedPoint(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_infamy')), '(CFixedPoint)0')]"
-						tooltip = com_war_goal_infamy_tooltip
+						tooltip = wgf_war_goal_infamy_tooltip
 						using = fontsize_large
-						text = com_war_goal_infamy
+						text = wgf_war_goal_infamy
 						autoresize = yes
 						maximumsize = { 100 -1 }
 						minimumsize = { 60 -1 }
@@ -221,9 +221,9 @@ types com_add_war_goal_panel_overwrites {
 					}
 
 					textbox = {
-						tooltip = com_war_goal_cost_tooltip
+						tooltip = wgf_war_goal_cost_tooltip
 						using = fontsize_large
-						text = com_war_goal_cost
+						text = wgf_war_goal_cost
 						autoresize = yes
 						maximumsize = { 100 -1 }
 						minimumsize = { 60 -1 }
@@ -240,7 +240,7 @@ types com_add_war_goal_panel_overwrites {
 				position = { 120 0 }
 				using = fontsize_large
 				parentanchor = left|vcenter
-				text = com_war_goal_name
+				text = wgf_war_goal_name
 				align = left|nobaseline
 				elide = right
 				fontsize_min = 14
@@ -252,11 +252,11 @@ types com_add_war_goal_panel_overwrites {
 	}
 
 	### Custom ADD WARGOAL TYPE
-	type com_add_wargoal_type_item = button {
+	type wgf_add_wargoal_type_item = button {
 		datacontext = "[Scope.GetBuildingType]"
 		datacontext = "[AddWarGoalPanel.GetDiplomaticPlay]"
-		onclick = "[GetVariableSystem.Set('com_selected_war_goal_type', Localize(Concatenate(BuildingType.GetKey, '_type_name')))]"
-		tooltip = com_war_goal_tooltip
+		onclick = "[GetVariableSystem.Set('wgf_selected_war_goal_type', Localize(Concatenate(BuildingType.GetKey, '_type_name')))]"
+		tooltip = wgf_war_goal_tooltip
 		using = default_button
 		visible = "[GetScriptedGui(BuildingType.GetKey).IsShown(GuiScope
 						.SetRoot(DiplomaticPlay.MakeScope)
@@ -283,7 +283,7 @@ types com_add_war_goal_panel_overwrites {
 				using = fontsize_large
 				parentanchor = left|vcenter
 				align = left|nobaseline
-				text = com_war_goal_name
+				text = wgf_war_goal_name
 				autoresize = yes
 				maximumsize = { 440 -1 }
 				multiline = yes
@@ -303,7 +303,7 @@ types com_add_war_goal_panel_overwrites {
 						GreaterThanOrEqualTo_int32(
 							Subtract_int32(
 								DiplomaticPlay.GetNumManeuversRemaining(GetPlayer.Self),
-								FixedPointToInt(DiplomaticPlay.MakeScope.Var('com_cost').GetValue)
+								FixedPointToInt(DiplomaticPlay.MakeScope.Var('wgf_cost').GetValue)
 							),
 							WarGoal.CalcManeuversCostToAdd
 						)

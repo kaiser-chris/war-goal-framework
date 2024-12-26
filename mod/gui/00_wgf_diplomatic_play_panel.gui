@@ -11,7 +11,7 @@
 
 @diplo_play_side_width = 250
 
-types com_diplomatic_play_panel_types_overwrite {
+types wgf_diplomatic_play_panel_types_overwrite {
 	
 	### DIPLO PLAY SIDE
 	type diplo_play_side = flowcontainer {
@@ -140,7 +140,7 @@ types com_diplomatic_play_panel_types_overwrite {
 			block "parentanchor" {}
 			spacing = 3
 			block "maneuvers_tooltip" {
-				tooltip = com_diplo_remaining_maneuvers_initiator_tooltip
+				tooltip = wgf_diplo_remaining_maneuvers_initiator_tooltip
 			}
 			
 			icon = {
@@ -150,7 +150,7 @@ types com_diplomatic_play_panel_types_overwrite {
 			}
 			textbox = {
 				block "maneuvers_amount" {
-					text = com_diplo_remaining_maneuvers_initiator
+					text = wgf_diplo_remaining_maneuvers_initiator
 				}
 				autoresize = yes
 				align = nobaseline
@@ -342,7 +342,7 @@ types com_diplomatic_play_panel_types_overwrite {
 				}
 			}
 
-			com_active_war_goal_list_primary = {}
+			wgf_active_war_goal_list_primary = {}
 
 			flowcontainer = {
 				spacing = 2
@@ -415,7 +415,7 @@ types com_diplomatic_play_panel_types_overwrite {
 												GreaterThanOrEqualTo_int32(
 													Subtract_int32(
 														DiplomaticPlay.GetNumManeuversRemaining(GetPlayer.Self),
-														FixedPointToInt(DiplomaticPlay.MakeScope.Var('com_cost').GetValue)
+														FixedPointToInt(DiplomaticPlay.MakeScope.Var('wgf_cost').GetValue)
 													),
 													WarGoal.CalcManeuversCostToAdd
 												),
@@ -438,16 +438,16 @@ types com_diplomatic_play_panel_types_overwrite {
 				}
 			}
 
-			com_active_war_goal_list = {}
+			wgf_active_war_goal_list = {}
 		}
 	}
 
-	type com_active_war_goal_list = flowcontainer {
+	type wgf_active_war_goal_list = flowcontainer {
 		spacing = 2
 		direction = vertical
-		datamodel = "[DiplomaticPlay.MakeScope.GetList('com_active_war_goals')]"
-		datacontext = "[GetScriptedGui('com_make_custom_war_goal_primary')]"
-		visible = "[And(DataModelHasItems(DiplomaticPlay.MakeScope.GetList('com_active_war_goals')), ObjectsEqual(GetPlayer.MakeScope, Country.MakeScope))]"
+		datamodel = "[DiplomaticPlay.MakeScope.GetList('wgf_active_war_goals')]"
+		datacontext = "[GetScriptedGui('wgf_make_custom_war_goal_primary')]"
+		visible = "[And(DataModelHasItems(DiplomaticPlay.MakeScope.GetList('wgf_active_war_goals')), ObjectsEqual(GetPlayer.MakeScope, Country.MakeScope))]"
 
 		item = {
 			flowcontainer = {
@@ -472,7 +472,7 @@ types com_diplomatic_play_panel_types_overwrite {
 
 				minimumsize = { @diplo_play_side_width 40 }
 				maximumsize = { @diplo_play_side_width -1 }
-				tooltip = com_war_goal_active_tooltip_secondary
+				tooltip = wgf_war_goal_active_tooltip_secondary
 				onmousehierarchyenter = "[WarGoal.ShowHighlight]"
 				onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
 				alwaystransparent = no
@@ -490,7 +490,7 @@ types com_diplomatic_play_panel_types_overwrite {
 						autoresize = yes
 						minimumsize = { 200 -1 }
 						maximumsize = { 200 -1 }
-						raw_text = "#BOLD [Localize('com_war_goal_name')]#!"
+						raw_text = "#BOLD [Localize('wgf_war_goal_name')]#!"
 						align = nobaseline
 						parentanchor = vcenter
 						multiline = yes
@@ -508,9 +508,9 @@ types com_diplomatic_play_panel_types_overwrite {
 					button = {
 						using = default_button
 						size = { 200 30 }
-						text = com_war_goal_make_primary_demand
-						tooltip = com_war_goal_make_primary_demand_tooltip
-						enabled = "[GreaterThanOrEqualTo_int32(Subtract_int32(DiplomaticPlay.GetNumManeuversRemaining(GetPlayer.Self), FixedPointToInt(DiplomaticPlay.MakeScope.Var('com_cost').GetValueWithDefault('(CFixedPoint)0'))), FixedPointToInt(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_cost_primary'))))]"
+						text = wgf_war_goal_make_primary_demand
+						tooltip = wgf_war_goal_make_primary_demand_tooltip
+						enabled = "[GreaterThanOrEqualTo_int32(Subtract_int32(DiplomaticPlay.GetNumManeuversRemaining(GetPlayer.Self), FixedPointToInt(DiplomaticPlay.MakeScope.Var('wgf_cost').GetValueWithDefault('(CFixedPoint)0'))), FixedPointToInt(DiplomaticPlay.MakeScope.ScriptValue(Concatenate(BuildingType.GetKey, '_cost_primary'))))]"
 						onclick = "[ScriptedGui.Execute(GuiScope
 										.SetRoot(DiplomaticPlay.MakeScope)
 										.AddScope('war_goal', BuildingType.MakeScope)
@@ -527,11 +527,11 @@ types com_diplomatic_play_panel_types_overwrite {
 		}
 	}
 
-	type com_active_war_goal_list_primary = flowcontainer {
+	type wgf_active_war_goal_list_primary = flowcontainer {
 		spacing = 2
 		direction = vertical
-		datamodel = "[DiplomaticPlay.MakeScope.GetList('com_active_war_goals_primary')]"
-		visible = "[And(DataModelHasItems(DiplomaticPlay.MakeScope.GetList('com_active_war_goals_primary')), ObjectsEqual(GetPlayer.MakeScope, Country.MakeScope))]"
+		datamodel = "[DiplomaticPlay.MakeScope.GetList('wgf_active_war_goals_primary')]"
+		visible = "[And(DataModelHasItems(DiplomaticPlay.MakeScope.GetList('wgf_active_war_goals_primary')), ObjectsEqual(GetPlayer.MakeScope, Country.MakeScope))]"
 
 		item = {
 			flowcontainer = {
@@ -546,7 +546,7 @@ types com_diplomatic_play_panel_types_overwrite {
 
 				minimumsize = { @diplo_play_side_width 40 }
 				maximumsize = { @diplo_play_side_width -1 }
-				tooltip = com_war_goal_active_tooltip_primary
+				tooltip = wgf_war_goal_active_tooltip_primary
 				onmousehierarchyenter = "[WarGoal.ShowHighlight]"
 				onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
 				alwaystransparent = no
@@ -564,7 +564,7 @@ types com_diplomatic_play_panel_types_overwrite {
 						autoresize = yes
 						minimumsize = { 200 -1 }
 						maximumsize = { 200 -1 }
-						raw_text = "#BOLD [Localize('com_war_goal_name')]#!"
+						raw_text = "#BOLD [Localize('wgf_war_goal_name')]#!"
 						align = nobaseline
 						parentanchor = vcenter
 						multiline = yes

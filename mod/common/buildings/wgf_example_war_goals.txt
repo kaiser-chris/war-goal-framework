@@ -1,0 +1,79 @@
+﻿wgf_example_war_goal = {
+    # Does not matter but good form is to
+    # categorize it as a war goal
+    building_group = wgf_war_goals
+
+    # Icon used for war goal
+    icon = "gfx/interface/icons/war_goals/unused/placeholder.dds"
+
+    # Unused
+    background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
+
+    # Do not show this building
+    city_type = none
+
+    # Do not show this building
+    can_build_government = {
+        always = no
+    }
+
+    # Do not show this building
+    can_build_private = {
+        always = no
+    }
+
+    # Do not show this building
+    potential = {
+        always = no
+    }
+
+    # Do not show this building
+    possible = {
+        always = no
+    }
+
+    # Do not show this building
+    production_method_groups = {
+        pmg_dummy
+    }
+}
+
+wgf_example_war_goal_category = {
+    # Does not matter but good form is to
+    # categorize it as a war goal
+    building_group = wgf_war_goals
+
+    # Icon used for war goal category
+    icon = "gfx/interface/icons/war_goals/unused/placeholder.dds"
+
+    # Unused
+    background = "gfx/interface/icons/building_icons/backgrounds/building_panel_bg_monuments.dds"
+
+    # Do not show this building
+    city_type = none
+
+    # Do not show this building
+    can_build_government = {
+        always = no
+    }
+
+    # Do not show this building
+    can_build_private = {
+        always = no
+    }
+
+    # Do not show this building
+    potential = {
+        always = no
+    }
+
+    # Do not show this building
+    possible = {
+        always = no
+    }
+
+    # Do not show this building
+    production_method_groups = {
+        pmg_dummy
+    }
+}

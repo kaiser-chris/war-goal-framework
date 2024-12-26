@@ -1,0 +1,13 @@
+﻿# This scripts are run after all other history scripts were run
+GLOBAL = {
+	# Add category
+	# add_to_global_variable_list = {
+	# 	name = wgf_custom_war_goals_types
+	# 	target = bt:wgf_example_war_goal_category
+	# }
+	# Add War Goal
+	# add_to_global_variable_list = {
+	# 	name = wgf_custom_war_goals
+	# 	target = bt:wgf_example_war_goal
+	# }
+}

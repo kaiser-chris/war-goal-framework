@@ -1,0 +1,3 @@
+﻿wgf_war_goals = {
+    # Just here to put them all into one group
+}

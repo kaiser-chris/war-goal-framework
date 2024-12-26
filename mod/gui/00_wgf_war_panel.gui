@@ -12,7 +12,7 @@
 @panel_width_plus_30 = 570			# used to be 490
 @panel_width_plus_70 = 610			# used to be 530
 
-types com_war_panel_overwrites {
+types wgf_war_panel_overwrites {
 	type war_panel = default_block_window {
 		name = "war_panel"
 		
@@ -1164,7 +1164,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_pressed_war_goal_list = {
+										wgf_pressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessAttackerLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1208,7 +1208,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_pressed_war_goal_list = {
+										wgf_pressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessDefenderLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1275,7 +1275,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_pressed_war_goal_list = {
+										wgf_pressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessAttackerLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1319,7 +1319,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_pressed_war_goal_list = {
+										wgf_pressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessDefenderLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1395,7 +1395,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_unpressed_war_goal_list = {
+										wgf_unpressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessAttackerLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1440,7 +1440,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_unpressed_war_goal_list = {
+										wgf_unpressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessDefenderLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1508,7 +1508,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_unpressed_war_goal_list = {
+										wgf_unpressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessAttackerLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1553,7 +1553,7 @@ types com_war_panel_overwrites {
 											}
 										}
 
-										com_unpressed_war_goal_list = {
+										wgf_unpressed_war_goal_list = {
 											visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.MakeScope, WarPanel.AccessWar.AccessDefenderLeaderParticipant.GetCountry.MakeScope)]"
 										}
 									}
@@ -1933,7 +1933,7 @@ types com_war_panel_overwrites {
 	}
 
 	### Custom CHECKMARK ANIMATION
-	type com_wargoal_checkmark = icon {
+	type wgf_wargoal_checkmark = icon {
 		texture = "gfx/interface/icons/generic_icons/checkmark.dds"
 		visible = "[ScriptedGui.IsShown(GuiScope
 							.SetRoot(DiplomaticPlay.MakeScope)
@@ -1974,17 +1974,17 @@ types com_war_panel_overwrites {
 		using = shimmer
 	}
 
-	type com_unpressed_war_goal_list = dynamicgridbox {
+	type wgf_unpressed_war_goal_list = dynamicgridbox {
 		using = default_list_position
 		datacontext = "[WarPanel.AccessWar.AccessDiplomaticPlay]"
-		datamodel = "[DiplomaticPlay.MakeScope.GetList('com_active_war_goals')]"
+		datamodel = "[DiplomaticPlay.MakeScope.GetList('wgf_active_war_goals')]"
 
 		block "visiblity" {
 			visible = no
 		}
 
 		item = {
-			com_wargoal_item = {
+			wgf_wargoal_item = {
 				visible = "[Not(ScriptedGui.IsShown(GuiScope
 								.SetRoot(DiplomaticPlay.MakeScope)
 								.AddScope('war_goal', BuildingType.MakeScope)
@@ -1996,17 +1996,17 @@ types com_war_panel_overwrites {
 		}
 	}
 
-	type com_pressed_war_goal_list = dynamicgridbox {
+	type wgf_pressed_war_goal_list = dynamicgridbox {
 		using = default_list_position
 		datacontext = "[WarPanel.AccessWar.AccessDiplomaticPlay]"
-		datamodel = "[DiplomaticPlay.MakeScope.GetList('com_active_war_goals_pressed')]"
+		datamodel = "[DiplomaticPlay.MakeScope.GetList('wgf_active_war_goals_pressed')]"
 
 		block "visiblity" {
 			visible = no
 		}
 
 		item = {
-			com_wargoal_item = {
+			wgf_wargoal_item = {
 				visible = "[ScriptedGui.IsShown(GuiScope
 								.SetRoot(DiplomaticPlay.MakeScope)
 								.AddScope('war_goal', BuildingType.MakeScope)
@@ -2019,12 +2019,12 @@ types com_war_panel_overwrites {
 	}
 
 	### Custom WARGOAL
-	type com_wargoal_item = container {
-		datacontext = "[GetScriptedGui('com_press_war_goal')]"
+	type wgf_wargoal_item = container {
+		datacontext = "[GetScriptedGui('wgf_press_war_goal')]"
 		datacontext = "[Scope.GetBuildingType]"
 		datacontext = "[WarPanel.AccessWar.AccessDiplomaticPlay]"
 		parentanchor = hcenter
-		tooltip = com_war_goal_active_tooltip_primary
+		tooltip = wgf_war_goal_active_tooltip_primary
 		onmousehierarchyenter = "[WarGoal.ShowHighlight]"
 		onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
 		alwaystransparent = no
@@ -2096,7 +2096,7 @@ types com_war_panel_overwrites {
 					autoresize = yes
 					minimumsize = { 190 -1 }
 					maximumsize = { 190 -1 }
-					raw_text = "#BOLD [Localize('com_war_goal_name')]#!"
+					raw_text = "#BOLD [Localize('wgf_war_goal_name')]#!"
 					align = center|nobaseline
 					parentanchor = hcenter
 				}
@@ -2171,13 +2171,13 @@ types com_war_panel_overwrites {
 					autoresize = yes
 					minimumsize = { 190 -1 }
 					maximumsize = { 190 -1 }
-					text = com_war_goal_name
+					text = wgf_war_goal_name
 					align = center|nobaseline
 					parentanchor = hcenter
 				}
 			}
 		}
 
-		com_wargoal_checkmark = {}
+		wgf_wargoal_checkmark = {}
 	}
 }

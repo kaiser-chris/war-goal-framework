@@ -1,0 +1,29 @@
+﻿# Maneuver cost to add this War Goal.
+# Scope is the diplomatic play
+wgf_example_war_goal_cost = {
+    value = 10
+    desc = base_value
+}
+
+# Maneuver cost to make this War Goal
+# a primary war goal.
+# Scope is the diplomatic play
+wgf_example_war_goal_cost_primary = {
+    value = 5
+    desc = base_value
+}
+
+# Infamy cost to add this War Goal.
+# Scope is the diplomatic play
+wgf_example_war_goal_infamy = {
+    value = 5
+    desc = base_value
+}
+
+# Infamy cost to make this War Goal
+# a primary war goal.
+# Scope is the diplomatic play
+wgf_example_war_goal_infamy_primary = {
+    value = 5
+    desc = base_value
+}
