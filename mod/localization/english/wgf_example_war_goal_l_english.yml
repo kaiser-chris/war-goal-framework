@@ -2,7 +2,7 @@
 # == CATEGORY
  # Category name shown in the War Goal list
  wgf_example_war_goal_category: "Example War Goals"
- # Internal category name that is used to connect
+ # Internal category name used to connect
  # the category with a War Goal
  wgf_example_war_goal_category_type_name: "example_war_goals"
  # Tooltip shown when hovering over the category
@@ -12,7 +12,7 @@
 # == WAR GOAL
  # War Goal name shown in the War Goal list
  wgf_example_war_goal: "Example War Goal"
- # Internal category name that is used to connect
+ # Internal category name used to connect
  # the category with a War Goal
  # (this can only be a custom category)
  wgf_example_war_goal_type_name: "example_war_goals"

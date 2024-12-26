@@ -1,7 +1,7 @@
 ﻿# Root: Diplomatic play where war goal is considered
-# scope:war_goal building type that represents the war goal
-# scope:target diplomatic play target
-# scope:initiator diplomatic play initiator
+# scope:war_goal = building type that represents the war goal
+# scope:target = diplomatic play target
+# scope:initiator = diplomatic play initiator
 wgf_example_war_goal = {
     scope = diplomatic_play
 
