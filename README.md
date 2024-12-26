@@ -70,6 +70,15 @@ Also, there needs to be a corresponding Scripted GUI that determines whether to 
     - scope:target = diplomatic play target
     - scope:initiator = diplomatic play initiator
 
+Since War Goals cost maneuvers and infamy, we also need to add a few scripted values (See [wgf_example_war_goals.txt](mod/common/script_values/wgf_example_war_goals.txt)):
+
+- \<building type\>_cost: Maneuver cost to add the War Goal to a Diplomatic Play
+- \<building type\>_infamy: Infamy cost to add the War Goal to a Diplomatic Play
+- \<building type\>_cost_primary: Maneuver cost to make the War Goal a primary demand in the Diplomatic Play 
+- \<building type\>_infamy_primary: Infamy cost to make the War Goal a primary demand in the Diplomatic Play
+
+**NOTE: These scripted values can be as simple or complex as you want. They are scoped to the diplomatic play.**
+
 Finally, we need to add the War Goal to the global list of custom War Goals `wgf_custom_war_goals`:
 ```
 add_to_global_variable_list = {
